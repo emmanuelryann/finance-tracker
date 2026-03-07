@@ -19,7 +19,7 @@ function Budget() {
         <h3 className="card-title">Budget</h3>
         <div className="budget__dropdown">
           <span>Monthly</span>
-          <span className="budget__dropdown-arrow">&#9662;</span>
+          <span className="budget__dropdown-arrow"><i className="fa-solid fa-chevron-down"></i></span>
         </div>
       </div>
 

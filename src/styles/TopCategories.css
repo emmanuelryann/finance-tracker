@@ -1,14 +1,26 @@
+.top-categories {
+  flex: 1;
+  height: 100%;
+}
+
 .top-categories__list {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.top-categories__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4vw;
 }
 
 .top-categories__item-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: clamp(0.3125rem, 0.7vw, 0.4375rem);
+  /* margin-bottom: clamp(0.3125rem, 0.7vw, 0.4375rem); */
 }
 
 .top-categories__item-left {

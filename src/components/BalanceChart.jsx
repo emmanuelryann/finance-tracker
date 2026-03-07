@@ -11,7 +11,7 @@ const barData = [
 
 const yLabels = ['$130', '$130', '$130', '$120'];
 
-function BalanceChart() {
+function BalanceChart({ onAddClick }) {
   return (
     <div className="card balance-chart">
       <div className="balance-chart__header">
@@ -20,13 +20,13 @@ function BalanceChart() {
           <h2 className="balance-chart__amount">$23,751,05</h2>
         </div>
         <div className="balance-chart__actions">
-          <button className="balance-chart__add-btn">
-            <span className="balance-chart__add-icon">+</span>
+          <button className="balance-chart__add-btn" onClick={onAddClick}>
+            <span className="balance-chart__add-icon"><i className="fa-solid fa-plus"></i></span>
             Add Transaction
           </button>
           <div className="balance-chart__dropdown">
             <span>Days</span>
-            <span className="balance-chart__dropdown-arrow">&#9662;</span>
+            <span className="balance-chart__dropdown-arrow"><i className="fa-solid fa-chevron-down"></i></span>
           </div>
         </div>
       </div>

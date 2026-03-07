@@ -62,11 +62,25 @@
   font-size: clamp(0.5rem, 0.8vw, 0.625rem);
 }
 
+.balance-chart {
+  flex: 1;
+  height: 100%;
+}
+
 /* ===== Chart Area ===== */
 .balance-chart__chart {
   display: flex;
   gap: 0.5rem;
-  height: clamp(10rem, 22vw, 16rem);
+  flex: 1;
+  min-height: 0;
+}
+
+.balance-chart__bars-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(10rem, 20vh, 16rem);
 }
 
 .balance-chart__y-axis {

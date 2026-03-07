@@ -86,7 +86,7 @@ function Sidebar({ isOpen, onClose }) {
 
       {/* Upgrade Plan */}
       <div className="sidebar__upgrade">
-        <div className="sidebar__upgrade-icon">🌿</div>
+        <div className="sidebar__upgrade-icon"><i className="fa-solid fa-leaf"></i></div>
         <p className="sidebar__upgrade-title">Upgrade Plan</p>
         <p className="sidebar__upgrade-desc">
           Get 1 month free and unlock all pro features
@@ -96,7 +96,7 @@ function Sidebar({ isOpen, onClose }) {
 
       {/* Close button for mobile */}
       <button className="sidebar__close" onClick={onClose} aria-label="Close sidebar">
-        &#10005;
+        <i className="fa-solid fa-xmark"></i>
       </button>
     </aside>
   );

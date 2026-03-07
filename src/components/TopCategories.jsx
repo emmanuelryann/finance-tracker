@@ -1,10 +1,10 @@
 import '../styles/TopCategories.css';
 
 const categories = [
-  { icon: '🎬', label: 'Entertainment', spent: '$230.00', total: '$900', color: 'var(--color-primary)', percent: 25.5 },
-  { icon: '🛍️', label: 'Shopping', spent: '$230.00', total: '$600', color: 'var(--color-orange)', percent: 38.3 },
-  { icon: '💊', label: 'Health', spent: '$230.00', total: '$600', color: 'var(--color-primary)', percent: 38.3 },
-  { icon: '🍔', label: 'Food & Drink', spent: '$230.00', total: '$300', color: 'var(--color-orange)', percent: 76.7 },
+  { icon: 'fa-solid fa-clapperboard', label: 'Entertainment', spent: '$230.00', total: '$900', color: 'var(--color-primary)', percent: 25.5 },
+  { icon: 'fa-solid fa-bag-shopping', label: 'Shopping', spent: '$230.00', total: '$600', color: 'var(--color-orange)', percent: 38.3 },
+  { icon: 'fa-solid fa-notes-medical', label: 'Health', spent: '$230.00', total: '$600', color: 'var(--color-primary)', percent: 38.3 },
+  { icon: 'fa-solid fa-burger', label: 'Food & Drink', spent: '$230.00', total: '$300', color: 'var(--color-orange)', percent: 76.7 },
 ];
 
 function TopCategories() {
@@ -19,7 +19,7 @@ function TopCategories() {
           <li key={cat.label} className="top-categories__item">
             <div className="top-categories__item-top">
               <div className="top-categories__item-left">
-                <span className="top-categories__icon">{cat.icon}</span>
+                <span className="top-categories__icon"><i className={cat.icon}></i></span>
                 <span className="top-categories__label">{cat.label}</span>
               </div>
               <span className="top-categories__amount">

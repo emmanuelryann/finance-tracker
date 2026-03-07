@@ -1,7 +1,26 @@
+.recent-txn {
+  flex: 1;
+  min-height: 0;
+}
+
 .recent-txn__list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 0.5rem;
+}
+
+/* Custom scrollbar for transaction list */
+.recent-txn__list::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.recent-txn__list::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
 }
 
 .recent-txn__item {
