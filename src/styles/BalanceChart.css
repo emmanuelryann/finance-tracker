@@ -1,0 +1,107 @@
+.balance-chart__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.balance-chart__label {
+  font-size: clamp(0.6875rem, 1.1vw, 0.8125rem);
+  color: var(--color-text-secondary);
+  margin-bottom: clamp(0.125rem, 0.3vw, 0.25rem);
+}
+
+.balance-chart__amount {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+}
+
+.balance-chart__dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: clamp(0.3125rem, 0.6vw, 0.375rem) clamp(0.625rem, 1.2vw, 0.875rem);
+  border: 0.0625rem solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: clamp(0.6875rem, 1vw, 0.8125rem);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.balance-chart__dropdown-arrow {
+  font-size: clamp(0.5rem, 0.8vw, 0.625rem);
+}
+
+/* ===== Chart Area ===== */
+.balance-chart__chart {
+  display: flex;
+  gap: 0.5rem;
+  height: clamp(10rem, 22vw, 16rem);
+}
+
+.balance-chart__y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.balance-chart__y-label {
+  font-size: clamp(0.5625rem, 0.9vw, 0.6875rem);
+  color: var(--color-text-muted);
+}
+
+.balance-chart__bars-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.balance-chart__dashed-line {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  border-top: 0.125rem dashed var(--color-border);
+  z-index: 1;
+}
+
+.balance-chart__bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 0.75rem;
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+.balance-chart__bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  max-width: clamp(2.5rem, 5vw, 3.75rem);
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.balance-chart__bar {
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  min-height: 0.5rem;
+  transition: height 0.3s ease;
+}
+
+.balance-chart__x-label {
+  font-size: clamp(0.5625rem, 0.9vw, 0.6875rem);
+  color: var(--color-text-muted);
+  position: absolute;
+  bottom: 0;
+}
+
+.balance-chart__bar-group {
+  position: relative;
+}
