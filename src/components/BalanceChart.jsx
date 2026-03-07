@@ -19,9 +19,15 @@ function BalanceChart() {
           <p className="balance-chart__label">Balance</p>
           <h2 className="balance-chart__amount">$23,751,05</h2>
         </div>
-        <div className="balance-chart__dropdown">
-          <span>Days</span>
-          <span className="balance-chart__dropdown-arrow">&#9662;</span>
+        <div className="balance-chart__actions">
+          <button className="balance-chart__add-btn">
+            <span className="balance-chart__add-icon">+</span>
+            Add Transaction
+          </button>
+          <div className="balance-chart__dropdown">
+            <span>Days</span>
+            <span className="balance-chart__dropdown-arrow">&#9662;</span>
+          </div>
         </div>
       </div>
 

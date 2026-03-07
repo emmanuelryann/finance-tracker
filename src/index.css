@@ -1,7 +1,7 @@
 /* ===== CSS Variables ===== */
 :root {
   /* Colors */
-  --color-primary: #2db68a;
+  --color-primary: #49ABA9;
   --color-primary-dark: #279e78;
   --color-primary-light: #e6f7f1;
 
@@ -15,8 +15,8 @@
 
   --color-border: #e5e7eb;
 
-  --color-red: #ef4444;
-  --color-orange: #f59e0b;
+  --color-red: #fE4D4F;
+  --color-orange: #fAAD14;
   --color-green: #22c55e;
 
   --color-netflix: #e50914;
@@ -145,7 +145,7 @@ input {
 
 .bottom-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 

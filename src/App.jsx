@@ -5,8 +5,8 @@ import Header from './components/Header';
 import BalanceChart from './components/BalanceChart';
 import SpendingSummary from './components/SpendingSummary';
 import RecentTransaction from './components/RecentTransaction';
-import CardSection from './components/CardSection';
-import QuickTransfer from './components/QuickTransfer';
+import Budget from './components/Budget';
+import TopCategories from './components/TopCategories';
 import Overlay from './components/Overlay';
 
 function App() {
@@ -44,12 +44,12 @@ function App() {
             <BalanceChart />
             <div className="bottom-row">
               <RecentTransaction />
-              <CardSection />
-              <QuickTransfer />
+              <Budget />
             </div>
           </div>
           <div className="right-column">
             <SpendingSummary />
+            <TopCategories />
           </div>
         </div>
       </main>
