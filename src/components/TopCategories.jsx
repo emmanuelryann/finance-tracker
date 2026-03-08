@@ -46,32 +46,62 @@ function TopCategories({ categorySpending, totalIncome }) {
             <p>No transactions carried out for this month.</p>
           </div>
         ) : (
-          <ul className="top-categories__list">
-            {activeCategories.map((cat) => (
-              <li key={cat.label} className="top-categories__item">
-                <div className="top-categories__item-top">
-                  <div className="top-categories__item-left">
-                    <span 
-                      className="top-categories__icon" 
-                      style={{ backgroundColor: `${cat.color}1a`, color: cat.color }}
-                    >
-                      <i className={cat.icon}></i>
-                    </span>
-                    <span className="top-categories__label">{cat.label}</span>
-                  </div>
-                  <span className="top-categories__amount">
-                    ${cat.amount.toLocaleString()}
-                  </span>
-                </div>
-                <div className="top-categories__bar">
-                  <div
-                    className="top-categories__bar-fill"
-                    style={{ width: `${cat.percent}%`, backgroundColor: 'var(--color-orange)' }}
-                  ></div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <>
+            <div className="top-categories__chart-container">
+              <svg viewBox="0 0 36 36" className="top-categories__pie">
+                {activeCategories.reduce((acc, cat, i) => {
+                  const strokeDasharray = `${cat.percent} ${100 - cat.percent}`;
+                  const strokeDashoffset = -acc.offset;
+                  acc.elements.push(
+                    <circle
+                      key={cat.label}
+                      cx="18" cy="18" r="16"
+                      fill="transparent"
+                      stroke={cat.color}
+                      strokeWidth="4"
+                      strokeDasharray={strokeDasharray}
+                      strokeDashoffset={strokeDashoffset}
+                    />
+                  );
+                  acc.offset += cat.percent;
+                  return acc;
+                }, { elements: [], offset: 0 }).elements}
+              </svg>
+              <div className="top-categories__chart-center">
+                <span className="chart-label">Total spent</span>
+                <span className="chart-value">${Object.values(categorySpending).reduce((a, b) => a + b, 0).toLocaleString()}</span>
+              </div>
+            </div>
+
+            <div className="top-categories__list-wrapper">
+              <ul className="top-categories__list">
+                {activeCategories.map((cat) => (
+                  <li key={cat.label} className="top-categories__item">
+                    <div className="top-categories__item-top">
+                      <div className="top-categories__item-left">
+                        <span 
+                          className="top-categories__icon" 
+                          style={{ backgroundColor: `${cat.color}1a`, color: cat.color }}
+                        >
+                          <i className={cat.icon}></i>
+                        </span>
+                        <span className="top-categories__label">{cat.label}</span>
+                      </div>
+                      <span className="top-categories__amount">
+                        ${cat.amount.toLocaleString()}
+                      </span>
+                    </div>
+                    <div className="top-categories__bar">
+                      <div
+                        className="top-categories__bar-fill"
+                        style={{ width: `${cat.percent}%`, backgroundColor: 'var(--color-orange)' }}
+                      ></div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
         )}
       </div>
     </div>

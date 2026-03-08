@@ -5,25 +5,60 @@
 
 .top-categories__content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  overflow: hidden;
+}
+
+.top-categories__chart-container {
+  position: relative;
+  width: 100%;
+  max-width: clamp(7rem, 12vw, 10rem);
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+
+.top-categories__pie {
+  transform: rotate(-90deg);
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.top-categories__chart-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-label {
+  font-size: clamp(0.5rem, 0.75vw, 0.625rem);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.chart-value {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.top-categories__list-wrapper {
+  flex: 1;
   overflow-y: auto;
   padding-right: 0.25rem;
-}
-
-/* Custom scrollbar for Top Categories */
-.top-categories__content::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-.top-categories__content::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-full);
 }
 
 .top-categories__list {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* Increased uniform gap */
-  padding-bottom: 0.5rem;
+  gap: clamp(0.75rem, 1.25vw, 1.25rem);
 }
 
 .top-categories__item {

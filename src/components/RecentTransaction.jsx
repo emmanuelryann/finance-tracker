@@ -25,11 +25,10 @@ function RecentTransaction({ transactions }) {
       <div className="card-header">
         <div className="transaction-history__title-group">
           <h3 className="card-title">Transaction History</h3>
-          <p className="card-subtitle">Short subtitle</p>
         </div>
         <div className="transaction-history__actions">
           <button className="txn-action-btn">
-            <i className="fa-solid fa-arrows-up-down"></i> Short
+            <i className="fa-solid fa-arrows-up-down"></i> Sort
           </button>
           <button className="txn-action-btn">
             <i className="fa-solid fa-filter"></i> Filter
@@ -64,11 +63,11 @@ function RecentTransaction({ transactions }) {
                   <span 
                     className="status-tag" 
                     style={{ 
-                      backgroundColor: `${getStatusColor(txn.status)}15`, 
-                      color: getStatusColor(txn.status) 
+                      backgroundColor: getStatusColor(txn.status), 
+                      color: '#fff' 
                     }}
                   >
-                    <i className="fa-solid fa-circle-check" style={{ fontSize: '0.625rem' }}></i> {txn.status || 'Success'}
+                    {txn.status || 'Success'}
                   </span>
                 </td>
                 <td className="txn-action-cell">

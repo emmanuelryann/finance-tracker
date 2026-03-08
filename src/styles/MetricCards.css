@@ -1,36 +1,36 @@
 .metrics-row {
-  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
 .metric-card {
-  padding: clamp(1rem, 2.5vw, 1.5rem);
-  height: auto;
+  padding: clamp(0.5rem, 1.25vw, 1rem);
+  gap: 0.5rem;
+  /* height: auto; */
 }
 
 .metric-card__header {
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(0.25rem, 0.75vw, 0.5rem);
 }
 
 .metric-card__label {
-  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+  font-size: clamp(0.625rem, 0.9vw, 0.75rem);
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: var(--color-text-muted);
 }
 
 .metric-card__amount {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: clamp(0.0625rem, 0.25vw, 0.125rem);
 }
 
 .metric-card__trend {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: clamp(0.6875rem, 1vw, 0.8125rem);
+  font-size: clamp(0.6875rem, 0.7vw, 0.8125rem);
 }
 
 .trend-value {

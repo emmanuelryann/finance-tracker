@@ -20,7 +20,6 @@ function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
     <div className="card balance-chart">
       <div className="card-header">
         <div className="balance-chart__title-group">
-          <h3 className="card-title">Finance Analytics</h3>
           <p className="balance-chart__subtitle">{monthName} Overview</p>
         </div>
         <div className="balance-chart__actions">
