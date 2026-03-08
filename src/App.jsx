@@ -190,7 +190,7 @@ function App() {
           <SpendingSummary />
           <RecentTransaction transactions={transactions} />
           <Budget budgets={budgets} transactions={transactions} onSetBudgetClick={openBudgetModal} />
-          <TopCategories />
+          <TopCategories categorySpending={categorySpending} totalIncome={totalIncome} />
         </div>
       </main>
     </div>

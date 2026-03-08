@@ -3,45 +3,67 @@
   height: 100%;
 }
 
+.top-categories__content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* Custom scrollbar for Top Categories */
+.top-categories__content::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.top-categories__content::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+
 .top-categories__list {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
+  gap: 1.25rem; /* Increased uniform gap */
+  padding-bottom: 0.5rem;
 }
 
 .top-categories__item {
   display: flex;
   flex-direction: column;
-  gap: 0.4vw;
+  gap: 0.4rem;
 }
 
 .top-categories__item-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* margin-bottom: clamp(0.3125rem, 0.7vw, 0.4375rem); */
 }
 
 .top-categories__item-left {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .top-categories__icon {
-  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+  width: clamp(1.75rem, 3vw, 2.25rem);
+  height: clamp(1.75rem, 3vw, 2.25rem);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   flex-shrink: 0;
 }
 
 .top-categories__label {
-  font-size: clamp(0.6875rem, 1.1vw, 0.8125rem);
-  font-weight: 500;
+  font-size: clamp(0.8rem, 1.2vw, 0.875rem);
+  font-weight: 600;
+  color: var(--color-text-primary);
 }
 
 .top-categories__amount {
-  font-size: clamp(0.625rem, 1vw, 0.75rem);
-  font-weight: 600;
+  font-size: clamp(0.7rem, 1vw, 0.75rem);
+  font-weight: 500;
   color: var(--color-text-secondary);
 }
 
@@ -58,4 +80,28 @@
   height: 100%;
   border-radius: var(--radius-full);
   transition: width 0.4s ease;
+}
+
+/* ===== Empty State ===== */
+.top-categories__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-secondary);
+}
+
+.top-categories__empty-icon {
+  font-size: 3rem;
+  color: var(--color-border);
+}
+
+.top-categories__empty p {
+  font-size: 0.875rem;
+  max-width: 200px;
+  line-height: 1.4;
 }
