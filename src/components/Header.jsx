@@ -12,7 +12,7 @@ function Header({ onMenuToggle }) {
           <i className="fa-solid fa-bars"></i>
         </button>
         <div className="header__greeting">
-          <h1 className="header__title">Good Morning, Turja</h1>
+          <h1 className="header__title">Good Morning, Emmanuel</h1>
           <p className="header__subtitle">
             This is your finance management platform.
           </p>

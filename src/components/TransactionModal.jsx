@@ -18,6 +18,7 @@ function TransactionModal({ isOpen, onClose, onAdd }) {
 
     const newTransaction = {
       ...formData,
+      category: formData.negative ? formData.category : 'Others',
       amount: `${formData.negative ? '-' : '+'}$${parseFloat(formData.amount).toLocaleString(undefined, { minimumFractionDigits: 0 })}`,
       id: Date.now()
     };
@@ -80,20 +81,22 @@ function TransactionModal({ isOpen, onClose, onAdd }) {
           </div>
 
           <div className="form-row">
-            <div className="form-group">
-              <label>Category</label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              >
-                <option value="Shopping">Shopping</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Health">Health</option>
-                <option value="Food & Drink">Food & Drink</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
+            {formData.negative && (
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                >
+                  <option value="Shopping">Shopping</option>
+                  <option value="Utilities">Utilities</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Health">Health</option>
+                  <option value="Food & Drink">Food & Drink</option>
+                  <option value="Others">Others</option>
+                </select>
+              </div>
+            )}
             <div className="form-group">
               <label>Date</label>
               <input

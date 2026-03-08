@@ -8,7 +8,7 @@ function Sidebar({ isOpen, onClose }) {
         <div className="sidebar__avatar">
           <span className="sidebar__avatar-text">T</span>
         </div>
-        <span className="sidebar__username">Turja Sen Das Partho</span>
+        <span className="sidebar__username">Mgbeadichie Emmanuel</span>
         <span className="sidebar__dropdown">&#9662;</span>
       </div>
 

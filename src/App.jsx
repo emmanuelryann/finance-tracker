@@ -10,13 +10,20 @@ import TopCategories from './components/TopCategories';
 import Overlay from './components/Overlay';
 
 import TransactionModal from './components/TransactionModal';
+import BudgetModal from './components/BudgetModal';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTxnModalOpen, setIsTxnModalOpen] = useState(false);
+  const [isBudgetModalOpen, setIsBudgetModalOpen] = useState(false);
+  
   const [transactions, setTransactions] = useState(() => {
-    const saved = localStorage.getItem('finhow_transactions');
-    if (saved) return JSON.parse(saved);
+    try {
+      const saved = localStorage.getItem('finhow_transactions');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error("Failed to parse transactions:", e);
+    }
     return [
       { id: 1, color: '#e50914', bg: '#e509141a', name: 'Netflix Pro', date: '2025-03-05', amount: '-$120', negative: true, category: 'Entertainment' },
       { id: 2, color: '#ea4c89', bg: '#ea4c891a', name: 'Dribbble Pro', date: '2025-03-06', amount: '-$98', negative: true, category: 'Shopping' },
@@ -25,12 +32,35 @@ function App() {
     ];
   });
 
+  const [budgets, setBudgets] = useState(() => {
+    try {
+      const saved = localStorage.getItem('finhow_budgets');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error("Failed to parse budgets:", e);
+    }
+    return {
+      Daily: 0,
+      Weekly: 0,
+      Monthly: 4000,
+      Yearly: 0
+    };
+  });
+
   useEffect(() => {
     localStorage.setItem('finhow_transactions', JSON.stringify(transactions));
   }, [transactions]);
 
+  useEffect(() => {
+    localStorage.setItem('finhow_budgets', JSON.stringify(budgets));
+  }, [budgets]);
+
   const addTransaction = useCallback((newTxn) => {
     setTransactions(prev => [newTxn, ...prev]);
+  }, []);
+
+  const setBudget = useCallback((timeframe, amount) => {
+    setBudgets(prev => ({ ...prev, [timeframe]: amount }));
   }, []);
 
   const openSidebar = useCallback(() => {
@@ -43,26 +73,36 @@ function App() {
     document.body.classList.remove('no-scroll');
   }, []);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openTxnModal = () => {
+    setIsTxnModalOpen(true);
     document.body.classList.add('no-scroll');
   };
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeTxnModal = () => {
+    setIsTxnModalOpen(false);
     document.body.classList.remove('no-scroll');
   };
 
-  /* Close sidebar/modal on Escape key */
+  const openBudgetModal = () => {
+    setIsBudgetModalOpen(true);
+    document.body.classList.add('no-scroll');
+  };
+  const closeBudgetModal = () => {
+    setIsBudgetModalOpen(false);
+    document.body.classList.remove('no-scroll');
+  };
+
+  /* Close sidebar/modals on Escape key */
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === 'Escape') {
         if (sidebarOpen) closeSidebar();
-        if (isModalOpen) closeModal();
+        if (isTxnModalOpen) closeTxnModal();
+        if (isBudgetModalOpen) closeBudgetModal();
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [sidebarOpen, closeSidebar, isModalOpen]);
+  }, [sidebarOpen, closeSidebar, isTxnModalOpen, isBudgetModalOpen]);
 
   return (
     <div className="dashboard">
@@ -70,19 +110,26 @@ function App() {
       <Overlay isVisible={sidebarOpen} onClick={closeSidebar} />
       
       <TransactionModal 
-        isOpen={isModalOpen} 
-        onClose={closeModal} 
+        isOpen={isTxnModalOpen} 
+        onClose={closeTxnModal} 
         onAdd={addTransaction} 
+      />
+
+      <BudgetModal
+        isOpen={isBudgetModalOpen}
+        onClose={closeBudgetModal}
+        onSet={setBudget}
+        currentBudgets={budgets}
       />
 
       <main className="main-content">
         <Header onMenuToggle={openSidebar} />
 
         <div className="content-grid">
-          <BalanceChart onAddClick={openModal} />
+          <BalanceChart onAddClick={openTxnModal} />
           <SpendingSummary />
           <RecentTransaction transactions={transactions} />
-          <Budget />
+          <Budget budgets={budgets} transactions={transactions} onSetBudgetClick={openBudgetModal} />
           <TopCategories />
         </div>
       </main>
