@@ -3,7 +3,7 @@ import './index.css';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import BalanceChart from './components/BalanceChart';
-import SpendingSummary from './components/SpendingSummary';
+import MetricCards from './components/MetricCards';
 import RecentTransaction from './components/RecentTransaction';
 import Budget from './components/Budget';
 import TopCategories from './components/TopCategories';
@@ -57,7 +57,7 @@ function App() {
   }, [budgets]);
 
   // Calculate Monthly Metrics
-  const { totalIncome, availableBalance, categorySpending, currentMonthName } = useMemo(() => {
+  const { totalIncome, totalExpenses, availableBalance, categorySpending, currentMonthName } = useMemo(() => {
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
@@ -102,6 +102,7 @@ function App() {
 
     return {
       totalIncome: income,
+      totalExpenses: expenses,
       availableBalance: income - expenses,
       categorySpending: spending,
       currentMonthName: monthName
@@ -180,6 +181,12 @@ function App() {
         <Header onMenuToggle={openSidebar} />
 
         <div className="content-grid">
+          <MetricCards 
+            availableBalance={availableBalance} 
+            totalIncome={totalIncome} 
+            totalExpenses={totalExpenses} 
+          />
+          
           <BalanceChart 
             onAddClick={openTxnModal} 
             availableBalance={availableBalance}
@@ -187,10 +194,16 @@ function App() {
             categoryData={categorySpending}
             monthName={currentMonthName}
           />
-          <SpendingSummary />
-          <RecentTransaction transactions={transactions} />
-          <Budget budgets={budgets} transactions={transactions} onSetBudgetClick={openBudgetModal} />
+          
           <TopCategories categorySpending={categorySpending} totalIncome={totalIncome} />
+
+          <RecentTransaction transactions={transactions} />
+          
+          <Budget 
+            budgets={budgets} 
+            transactions={transactions} 
+            onSetBudgetClick={openBudgetModal} 
+          />
         </div>
       </main>
     </div>

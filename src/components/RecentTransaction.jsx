@@ -1,17 +1,6 @@
 import '../styles/RecentTransaction.css';
 
-const category_map = {
-  Housing: { icon: 'fa-solid fa-house', color: '#6366f1' },
-  Food: { icon: 'fa-solid fa-burger', color: '#f87171' },
-  Entertainment: { icon: 'fa-solid fa-clapperboard', color: '#e50914' },
-  Shopping: { icon: 'fa-solid fa-bag-shopping', color: '#ea4c89' },
-  Health: { icon: 'fa-solid fa-notes-medical', color: '#49ABA9' },
-  Others: { icon: 'fa-solid fa-circle-dollar-to-slot', color: '#6b7280' },
-};
-
 function RecentTransaction({ transactions }) {
-  const getCategoryData = (cat) => category_map[cat] || category_map.Others;
-
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('en-US', {
@@ -21,37 +10,77 @@ function RecentTransaction({ transactions }) {
     });
   };
 
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'success': return 'var(--color-green)';
+      case 'pending': return 'var(--color-orange)';
+      case 'failed': return 'var(--color-red)';
+      case 'reversed': return 'var(--color-text-secondary)';
+      default: return 'var(--color-text-secondary)';
+    }
+  };
+
   return (
     <div className="card recent-txn">
       <div className="card-header">
-        <h3 className="card-title">Recent Transactions</h3>
-        <button className="three-dot-btn" aria-label="More options">
-          <i className="fa-solid fa-ellipsis-vertical"></i>
-        </button>
+        <div className="transaction-history__title-group">
+          <h3 className="card-title">Transaction History</h3>
+          <p className="card-subtitle">Short subtitle</p>
+        </div>
+        <div className="transaction-history__actions">
+          <button className="txn-action-btn">
+            <i className="fa-solid fa-arrows-up-down"></i> Short
+          </button>
+          <button className="txn-action-btn">
+            <i className="fa-solid fa-filter"></i> Filter
+          </button>
+        </div>
       </div>
 
-      <ul className="recent-txn__list">
-        {transactions.map((txn) => {
-          const { icon, color } = getCategoryData(txn.category);
-          return (
-            <li key={txn.id} className="recent-txn__item">
-              <div
-                className="recent-txn__icon"
-                style={{ backgroundColor: `${color}1a`, color: color }}
-              >
-                <i className={icon}></i>
-              </div>
-              <div className="recent-txn__info">
-                <span className="recent-txn__name">{txn.name}</span>
-                <span className="recent-txn__date">{formatDate(txn.date)}</span>
-              </div>
-              <span className={`recent-txn__amount ${txn.negative ? 'recent-txn__amount--negative' : 'recent-txn__amount--positive'}`}>
-                {txn.amount}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="transaction-history__table-container">
+        <table className="transaction-history__table">
+          <thead>
+            <tr>
+              <th>Transaction <i className="fa-solid fa-sort"></i></th>
+              <th>Date <i className="fa-solid fa-sort"></i></th>
+              <th>Category</th>
+              <th>Amount <i className="fa-solid fa-sort"></i></th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((txn) => (
+              <tr key={txn.id} className="txn-row">
+                <td className="txn-name-cell">
+                  <span className="txn-name">{txn.name}</span>
+                </td>
+                <td className="txn-date-cell">{formatDate(txn.date)}</td>
+                <td className="txn-category-cell">{txn.category}</td>
+                <td className={`txn-amount-cell ${txn.negative ? 'negative' : 'positive'}`}>
+                  {txn.amount}
+                </td>
+                <td className="txn-status-cell">
+                  <span 
+                    className="status-tag" 
+                    style={{ 
+                      backgroundColor: `${getStatusColor(txn.status)}15`, 
+                      color: getStatusColor(txn.status) 
+                    }}
+                  >
+                    <i className="fa-solid fa-circle-check" style={{ fontSize: '0.625rem' }}></i> {txn.status || 'Success'}
+                  </span>
+                </td>
+                <td className="txn-action-cell">
+                  <button className="three-dot-btn">
+                    <i className="fa-solid fa-ellipsis"></i>
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

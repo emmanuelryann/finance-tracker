@@ -6,6 +6,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
     name: '',
     amount: '',
     category: 'Shopping',
+    status: 'Success',
     date: new Date().toISOString().split('T')[0],
     negative: true
   });
@@ -40,6 +41,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
       name: '',
       amount: '',
       category: 'Shopping',
+      status: 'Success',
       date: new Date().toISOString().split('T')[0],
       negative: true
     });
@@ -59,7 +61,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
           {error && <div className="modal-error-message" style={{ color: 'var(--color-red)', fontSize: '0.8125rem', marginBottom: '1rem', fontWeight: '500' }}>{error}</div>}
           
           <div className="form-group">
-            <label>Description</label>
+            <label>Transaction</label>
             <input
               type="text"
               placeholder="e.g. Netflix Subscription"
@@ -94,22 +96,36 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
           </div>
 
           <div className="form-row">
-            {formData.negative && (
-              <div className="form-group">
-                <label>Category</label>
-                <select
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                >
-                  <option value="Housing">Housing</option>
-                  <option value="Food">Food</option>
-                  <option value="Entertainment">Entertainment</option>
-                  <option value="Shopping">Shopping</option>
-                  <option value="Health">Health</option>
-                  <option value="Others">Others</option>
-                </select>
-              </div>
-            )}
+            <div className="form-group">
+              <label>Category</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                disabled={!formData.negative}
+              >
+                <option value="Housing">Housing</option>
+                <option value="Food">Food</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Health">Health</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Status</label>
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="Success">Success</option>
+                <option value="Pending">Pending</option>
+                <option value="Failed">Failed</option>
+                <option value="Reversed">Reversed</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-row">
             <div className="form-group">
               <label>Date</label>
               <input

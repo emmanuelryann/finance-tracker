@@ -2,9 +2,8 @@ import '../styles/BalanceChart.css';
 
 const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Others'];
 
-function BalanceChart({ onAddClick, availableBalance, totalIncome, categoryData, monthName }) {
+function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
   // Use the total monthly income as the chart's upper limit
-  // Fallback to highest spending + a margin if income is 0
   const maxCategorySpending = Math.max(...Object.values(categoryData), 0);
   const chartMax = Math.max(totalIncome, maxCategorySpending, 100);
   
@@ -19,11 +18,10 @@ function BalanceChart({ onAddClick, availableBalance, totalIncome, categoryData,
 
   return (
     <div className="card balance-chart">
-      <div className="balance-chart__header">
+      <div className="card-header">
         <div className="balance-chart__title-group">
-          <p className="balance-chart__label">{monthName} Available Balance</p>
-          <h2 className="balance-chart__amount">$ {availableBalance.toLocaleString()}</h2>
-          {totalIncome > 0 && <p className="balance-chart__income-context">Total Income: ${totalIncome.toLocaleString()}</p>}
+          <h3 className="card-title">Finance Analytics</h3>
+          <p className="balance-chart__subtitle">{monthName} Overview</p>
         </div>
         <div className="balance-chart__actions">
           <button className="balance-chart__add-btn" onClick={onAddClick}>
