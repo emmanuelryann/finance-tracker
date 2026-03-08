@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import './index.css';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -19,41 +19,94 @@ function App() {
   
   const [transactions, setTransactions] = useState(() => {
     try {
-      const saved = localStorage.getItem('finhow_transactions');
-      if (saved) return JSON.parse(saved);
+      const saved = localStorage.getItem('finhow_transactions_v2');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      }
     } catch (e) {
       console.error("Failed to parse transactions:", e);
     }
-    return [
-      { id: 1, color: '#e50914', bg: '#e509141a', name: 'Netflix Pro', date: '2025-03-05', amount: '-$120', negative: true, category: 'Entertainment' },
-      { id: 2, color: '#ea4c89', bg: '#ea4c891a', name: 'Dribbble Pro', date: '2025-03-06', amount: '-$98', negative: true, category: 'Shopping' },
-      { id: 3, color: '#5865f2', bg: '#5865f21a', name: 'Discord Pro', date: '2025-03-07', amount: '-$80', negative: true, category: 'Others' },
-      { id: 4, color: '#003087', bg: '#0030871a', name: 'Paypal', date: '2025-03-08', amount: '+$1,250', negative: false, category: 'Others' },
-    ];
+    return [];
   });
 
   const [budgets, setBudgets] = useState(() => {
     try {
-      const saved = localStorage.getItem('finhow_budgets');
-      if (saved) return JSON.parse(saved);
+      const saved = localStorage.getItem('finhow_budgets_v2');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+      }
     } catch (e) {
       console.error("Failed to parse budgets:", e);
     }
     return {
       Daily: 0,
       Weekly: 0,
-      Monthly: 4000,
+      Monthly: 0,
       Yearly: 0
     };
   });
 
   useEffect(() => {
-    localStorage.setItem('finhow_transactions', JSON.stringify(transactions));
+    localStorage.setItem('finhow_transactions_v2', JSON.stringify(transactions));
   }, [transactions]);
 
   useEffect(() => {
-    localStorage.setItem('finhow_budgets', JSON.stringify(budgets));
+    localStorage.setItem('finhow_budgets_v2', JSON.stringify(budgets));
   }, [budgets]);
+
+  // Calculate Monthly Metrics
+  const { totalIncome, availableBalance, categorySpending, currentMonthName } = useMemo(() => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    const monthName = now.toLocaleString('default', { month: 'long' });
+
+    console.log("Budget Tracker: Calculating metrics for", monthName);
+
+    let income = 0;
+    let expenses = 0;
+    const spending = {
+      Housing: 0,
+      Food: 0,
+      Entertainment: 0,
+      Shopping: 0,
+      Health: 0,
+      Others: 0
+    };
+
+    transactions.forEach(txn => {
+      if (!txn || typeof txn !== 'object') return;
+      
+      const txnDate = new Date(txn.date);
+      if (isNaN(txnDate.getTime())) return;
+
+      if (txnDate.getMonth() === currentMonth && txnDate.getFullYear() === currentYear) {
+        const amountStr = String(txn.amount || "0").replace(/[^0-9.-]+/g, "");
+        const amount = Math.abs(parseFloat(amountStr));
+        if (isNaN(amount)) return;
+        
+        if (txn.negative) {
+          expenses += amount;
+          if (spending.hasOwnProperty(txn.category)) {
+            spending[txn.category] += amount;
+          } else {
+            spending.Others += amount;
+          }
+        } else {
+          income += amount;
+        }
+      }
+    });
+
+    return {
+      totalIncome: income,
+      availableBalance: income - expenses,
+      categorySpending: spending,
+      currentMonthName: monthName
+    };
+  }, [transactions]);
 
   const addTransaction = useCallback((newTxn) => {
     setTransactions(prev => [newTxn, ...prev]);
@@ -113,6 +166,7 @@ function App() {
         isOpen={isTxnModalOpen} 
         onClose={closeTxnModal} 
         onAdd={addTransaction} 
+        currentBalance={availableBalance}
       />
 
       <BudgetModal
@@ -126,7 +180,13 @@ function App() {
         <Header onMenuToggle={openSidebar} />
 
         <div className="content-grid">
-          <BalanceChart onAddClick={openTxnModal} />
+          <BalanceChart 
+            onAddClick={openTxnModal} 
+            availableBalance={availableBalance}
+            totalIncome={totalIncome}
+            categoryData={categorySpending}
+            monthName={currentMonthName}
+          />
           <SpendingSummary />
           <RecentTransaction transactions={transactions} />
           <Budget budgets={budgets} transactions={transactions} onSetBudgetClick={openBudgetModal} />

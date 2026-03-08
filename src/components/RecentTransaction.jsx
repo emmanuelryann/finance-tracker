@@ -1,11 +1,11 @@
 import '../styles/RecentTransaction.css';
 
 const category_map = {
-  Shopping: { icon: 'fa-solid fa-bag-shopping', color: '#ea4c89' },
-  Utilities: { icon: 'fa-solid fa-file-invoice', color: '#fAAD14' },
+  Housing: { icon: 'fa-solid fa-house', color: '#6366f1' },
+  Food: { icon: 'fa-solid fa-burger', color: '#f87171' },
   Entertainment: { icon: 'fa-solid fa-clapperboard', color: '#e50914' },
+  Shopping: { icon: 'fa-solid fa-bag-shopping', color: '#ea4c89' },
   Health: { icon: 'fa-solid fa-notes-medical', color: '#49ABA9' },
-  'Food & Drink': { icon: 'fa-solid fa-burger', color: '#fAAD14' },
   Others: { icon: 'fa-solid fa-circle-dollar-to-slot', color: '#6b7280' },
 };
 

@@ -1,23 +1,29 @@
 import '../styles/BalanceChart.css';
 
-const barData = [
-  { month: 'Jan', height: 70 },
-  { month: 'Feb', height: 90 },
-  { month: 'Mar', height: 75 },
-  { month: 'Apr', height: 65 },
-  { month: 'Mai', height: 60 },
-  { month: 'Jun', height: 85 },
-];
+const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Others'];
 
-const yLabels = ['$130', '$130', '$130', '$120'];
+function BalanceChart({ onAddClick, availableBalance, totalIncome, categoryData, monthName }) {
+  // Use the total monthly income as the chart's upper limit
+  // Fallback to highest spending + a margin if income is 0
+  const maxCategorySpending = Math.max(...Object.values(categoryData), 0);
+  const chartMax = Math.max(totalIncome, maxCategorySpending, 100);
+  
+  // Dependable Y-axis labels: 0% to 100% of the Monthly Income (chartMax)
+  const yAxisLabels = [
+    `$${Math.round(chartMax).toLocaleString()}`,
+    `$${Math.round(chartMax * 0.75).toLocaleString()}`,
+    `$${Math.round(chartMax * 0.5).toLocaleString()}`,
+    `$${Math.round(chartMax * 0.25).toLocaleString()}`,
+    '$0'
+  ];
 
-function BalanceChart({ onAddClick }) {
   return (
     <div className="card balance-chart">
       <div className="balance-chart__header">
-        <div>
-          <p className="balance-chart__label">Balance</p>
-          <h2 className="balance-chart__amount">$23,751,05</h2>
+        <div className="balance-chart__title-group">
+          <p className="balance-chart__label">{monthName} Available Balance</p>
+          <h2 className="balance-chart__amount">$ {availableBalance.toLocaleString()}</h2>
+          {totalIncome > 0 && <p className="balance-chart__income-context">Total Income: ${totalIncome.toLocaleString()}</p>}
         </div>
         <div className="balance-chart__actions">
           <button className="balance-chart__add-btn" onClick={onAddClick}>
@@ -25,30 +31,45 @@ function BalanceChart({ onAddClick }) {
             Add Transaction
           </button>
           <div className="balance-chart__dropdown">
-            <span>Days</span>
+            <span>Monthly</span>
             <span className="balance-chart__dropdown-arrow"><i className="fa-solid fa-chevron-down"></i></span>
           </div>
         </div>
       </div>
 
-      <div className="balance-chart__chart">
+      <div className="balance-chart__chart-container">
         <div className="balance-chart__y-axis">
-          {yLabels.map((label, i) => (
+          {yAxisLabels.map((label, i) => (
             <span key={i} className="balance-chart__y-label">{label}</span>
           ))}
         </div>
-        <div className="balance-chart__bars-wrapper">
-          <div className="balance-chart__dashed-line"></div>
-          <div className="balance-chart__bars">
-            {barData.map((bar) => (
-              <div key={bar.month} className="balance-chart__bar-group">
-                <div
-                  className="balance-chart__bar"
-                  style={{ height: `${bar.height}%` }}
-                ></div>
-                <span className="balance-chart__x-label">{bar.month}</span>
-              </div>
+        
+        <div className="balance-chart__bars-area">
+          <div className="balance-chart__grid-lines">
+            {[0, 1, 2, 3, 4].map(line => (
+              <div key={line} className="balance-chart__grid-line"></div>
             ))}
+          </div>
+
+          <div className="balance-chart__bars">
+            {categories.map((cat) => {
+              const spent = categoryData[cat] || 0;
+              const heightPercent = chartMax > 0 ? (spent / chartMax) * 100 : 0;
+              
+              return (
+                <div key={cat} className="balance-chart__bar-group">
+                  <div className="balance-chart__bar-wrapper">
+                    <div
+                      className="balance-chart__bar"
+                      style={{ height: `${heightPercent}%` }}
+                    >
+                      {spent > 0 && <span className="balance-chart__bar-value">${Math.round(spent)}</span>}
+                    </div>
+                  </div>
+                  <span className="balance-chart__x-label">{cat}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
