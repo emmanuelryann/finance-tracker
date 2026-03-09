@@ -3,8 +3,7 @@
 A modern, responsive, and visually engaging frontend finance management dashboard built with React and Vite. This application allows users to effortlessly track their balances, monitor spending habits top categories, manage budgets, and record transactions in one centralized, beautiful interface.
 
 ## 🚀 Live Demo
-<!-- [Add a link to the live demo here once deployed, e.g., https://your-project.vercel.app] -->
-*Pending Deployment*
+https://finance-tracker-lac-seven-58.vercel.app/
 
 ---
 
