@@ -24,17 +24,18 @@
 }
 
 .budget__set-btn {
+  background: var(--color-primary);
+  color: #fff;
   font-size: clamp(0.625rem, 1vw, 0.75rem);
   font-weight: 600;
-  color: var(--color-primary);
-  padding: 0.375rem 0.75rem;
-  border: 0.0625rem solid var(--color-primary);
+  padding: clamp(0.375rem, 0.6vw, 0.4375rem) clamp(0.75rem, 1.5vw, 1rem);
   border-radius: var(--radius-full);
-  transition: all 0.2s;
+  border: none;
+  transition: opacity 0.2s;
 }
 
 .budget__set-btn:hover {
-  background: var(--color-primary-light);
+  opacity: 0.9;
 }
 
 .budget__dropdown {

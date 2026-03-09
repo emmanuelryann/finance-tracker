@@ -13,20 +13,16 @@ function TopCategories({ categorySpending, totalExpenses }) {
   // Filter for categories with spending > 0 and sort by amount descending
   const activeCategories = Object.entries(categorySpending)
     .filter(([_, amount]) => amount > 0)
-    .sort((a, b) => b[1] - a[1])
-    .map(([category, amount]) => {
-      const config = category_map[category] || category_map.Miscellaneous;
-      // Calculate percent of total expenses
-      const percent = totalExpenses > 0 ? (amount / totalExpenses) * 100 : 0;
-      return {
-        label: category,
-        amount: amount,
-        percent: percent,
-        ...config
-      };
-    });
+    .sort((a, b) => b[1] - a[1]);
 
   const hasSpending = activeCategories.length > 0;
+
+  // Function to get hierarchical shades of primary color
+  const getShade = (index, total) => {
+    // Start with 100% and reduce opacity as it goes down
+    const opacity = Math.max(0.3, 1 - (index * 0.15));
+    return `rgba(3, 3, 140, ${opacity})`;
+  };
 
   return (
     <div className="card top-categories">
@@ -49,21 +45,23 @@ function TopCategories({ categorySpending, totalExpenses }) {
           <>
             <div className="top-categories__chart-container">
               <svg viewBox="0 0 36 36" className="top-categories__pie">
-                {activeCategories.reduce((acc, cat, i) => {
-                  const strokeDasharray = `${cat.percent} ${100 - cat.percent}`;
+                {activeCategories.reduce((acc, [category, amount], i) => {
+                  const percent = totalExpenses > 0 ? (amount / totalExpenses) * 100 : 0;
+                  const strokeDasharray = `${percent} ${100 - percent}`;
                   const strokeDashoffset = -acc.offset;
+                  const color = getShade(i, activeCategories.length);
                   acc.elements.push(
                     <circle
-                      key={cat.label}
+                      key={category}
                       cx="18" cy="18" r="16"
                       fill="transparent"
-                      stroke={cat.color}
+                      stroke={color}
                       strokeWidth="4"
                       strokeDasharray={strokeDasharray}
                       strokeDashoffset={strokeDashoffset}
                     />
                   );
-                  acc.offset += cat.percent;
+                  acc.offset += percent;
                   return acc;
                 }, { elements: [], offset: 0 }).elements}
               </svg>
@@ -75,22 +73,26 @@ function TopCategories({ categorySpending, totalExpenses }) {
 
             <div className="top-categories__list-wrapper">
               <ul className="top-categories__list">
-                {activeCategories.map((cat) => (
-                  <li key={cat.label} className="top-categories__item">
-                    <div className="top-categories__item-left">
-                      <span 
-                        className="top-categories__badge" 
-                        style={{ backgroundColor: cat.color }}
-                      >
-                        {Math.round(cat.percent)}%
+                {activeCategories.map(([category, amount], i) => {
+                  const percent = totalExpenses > 0 ? (amount / totalExpenses) * 100 : 0;
+                  const color = getShade(i, activeCategories.length);
+                  return (
+                    <li key={category} className="top-categories__item">
+                      <div className="top-categories__item-left">
+                        <span 
+                          className="top-categories__badge" 
+                          style={{ backgroundColor: color }}
+                        >
+                          {Math.round(percent)}%
+                        </span>
+                        <span className="top-categories__label">{category}</span>
+                      </div>
+                      <span className="top-categories__amount">
+                        ${amount.toLocaleString()}
                       </span>
-                      <span className="top-categories__label">{cat.label}</span>
-                    </div>
-                    <span className="top-categories__amount">
-                      ${cat.amount.toLocaleString()}
-                    </span>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </>

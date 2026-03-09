@@ -41,7 +41,7 @@
 
 .header__subtitle {
   font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
-  color: var(--color-text-secondary);
+  color: var(--color-text-gray);
   margin-top: clamp(0.125rem, 0.3vw, 0.25rem);
 }
 

@@ -10,12 +10,20 @@ function RecentTransaction({ transactions }) {
     });
   };
 
+  const getStatusIcon = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'success': return <i className="fa-solid fa-circle-check"></i>;
+      case 'pending': return <i className="fa-solid fa-circle-notch fa-spin"></i>;
+      case 'failed': return <i className="fa-solid fa-circle-xmark"></i>;
+      default: return null;
+    }
+  };
+
   const getStatusColor = (status) => {
     switch (status?.toLowerCase()) {
       case 'success': return 'var(--color-green)';
       case 'pending': return 'var(--color-orange)';
       case 'failed': return 'var(--color-red)';
-      case 'reversed': return 'var(--color-text-secondary)';
       default: return 'var(--color-text-secondary)';
     }
   };
@@ -27,10 +35,7 @@ function RecentTransaction({ transactions }) {
           <h3 className="card-title">Transaction History</h3>
         </div>
         <div className="transaction-history__actions">
-          <button className="txn-action-btn">
-            <i className="fa-solid fa-arrows-up-down"></i> Sort
-          </button>
-          <button className="txn-action-btn">
+          <button className="txn-filter-btn">
             <i className="fa-solid fa-filter"></i> Filter
           </button>
         </div>
@@ -60,15 +65,13 @@ function RecentTransaction({ transactions }) {
                   {txn.amount}
                 </td>
                 <td className="txn-status-cell">
-                  <span 
-                    className="status-tag" 
-                    style={{ 
-                      backgroundColor: getStatusColor(txn.status), 
-                      color: '#fff' 
-                    }}
+                  <div 
+                    className={`status-tag status-tag--${txn.status?.toLowerCase() || 'success'}`}
+                    style={{ color: getStatusColor(txn.status) }}
                   >
-                    {txn.status || 'Success'}
-                  </span>
+                    <span className="status-tag__icon">{getStatusIcon(txn.status || 'Success')}</span>
+                    <span className="status-tag__text">{txn.status || 'Success'}</span>
+                  </div>
                 </td>
                 <td className="txn-action-cell">
                   <button className="three-dot-btn">

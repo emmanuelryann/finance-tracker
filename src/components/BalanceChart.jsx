@@ -1,11 +1,40 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import '../styles/BalanceChart.css';
+
+const ALL_MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
 
 const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Miscellaneous'];
 
-function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
+function BalanceChart({ onAddClick, transactions }) {
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState(null);
-  // Use the total monthly income as the chart's upper limit
+
+  // Local calculation of data for the selected month
+  const { totalIncome, categoryData } = useMemo(() => {
+    const monthTransactions = transactions.filter(txn => {
+      const txnDate = new Date(txn.date);
+      return txnDate.getMonth() === selectedMonth && txnDate.getFullYear() === new Date().getFullYear();
+    });
+
+    const income = monthTransactions
+      .filter(txn => !txn.negative && txn.status !== 'Failed')
+      .reduce((acc, txn) => acc + Math.abs(parseFloat(String(txn.amount).replace(/[^0-9.-]+/g, ""))), 0);
+
+    const spending = monthTransactions
+      .filter(txn => txn.negative && txn.status !== 'Failed')
+      .reduce((acc, txn) => {
+        const amount = Math.abs(parseFloat(String(txn.amount).replace(/[^0-9.-]+/g, "")));
+        acc[txn.category] = (acc[txn.category] || 0) + amount;
+        return acc;
+      }, {});
+
+    return { totalIncome: income, categoryData: spending };
+  }, [transactions, selectedMonth]);
+
   const maxCategorySpending = Math.max(...Object.values(categoryData), 0);
   const chartMax = Math.max(totalIncome, maxCategorySpending, 100);
   
@@ -18,20 +47,40 @@ function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
     '$0'
   ];
 
+  const handleMonthSelect = (index) => {
+    setSelectedMonth(index);
+    setIsDropdownOpen(false);
+  };
+
   return (
     <div className="card balance-chart">
       <div className="card-header">
         <div className="balance-chart__title-group">
-          <p className="balance-chart__subtitle">{monthName} Overview</p>
+          <p className="balance-chart__subtitle">{ALL_MONTHS[selectedMonth]} Overview</p>
         </div>
         <div className="balance-chart__actions">
           <button className="balance-chart__add-btn" onClick={onAddClick}>
             <span className="balance-chart__add-icon"><i className="fa-solid fa-plus"></i></span>
             Add Transaction
           </button>
-          <div className="balance-chart__dropdown">
-            <span>Monthly</span>
-            <span className="balance-chart__dropdown-arrow"><i className="fa-solid fa-chevron-down"></i></span>
+          <div className="balance-chart__dropdown-container">
+            <div className="balance-chart__dropdown" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+              <span>{ALL_MONTHS[selectedMonth]}</span>
+              <span className="balance-chart__dropdown-arrow"><i className="fa-solid fa-chevron-down"></i></span>
+            </div>
+            {isDropdownOpen && (
+              <div className="balance-chart__dropdown-menu">
+                {ALL_MONTHS.map((month, index) => (
+                  <div 
+                    key={month} 
+                    className={`balance-chart__dropdown-item ${selectedMonth === index ? 'active' : ''}`}
+                    onClick={() => handleMonthSelect(index)}
+                  >
+                    {month}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

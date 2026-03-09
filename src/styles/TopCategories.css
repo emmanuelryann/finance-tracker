@@ -1,6 +1,8 @@
 .top-categories {
   flex: 1;
-  height: 100%;
+  max-height: clamp(28rem, 55vh, 32rem);
+  display: flex;
+  flex-direction: column;
 }
 
 .top-categories__content {
@@ -52,13 +54,15 @@
 .top-categories__list-wrapper {
   flex: 1;
   overflow-y: auto;
-  padding-right: 0.25rem;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .top-categories__list {
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 1.25vw, 1.25rem);
+  gap: clamp(0.5rem, 0.8vw, 0.875rem);
 }
 
 .top-categories__item {
@@ -75,16 +79,17 @@
 }
 
 .top-categories__badge {
-  width: clamp(2.5rem, 5vw, 3.2rem);
-  height: clamp(1.2rem, 2.5vw, 1.6rem);
+  width: clamp(2rem, 3vw, 2.4rem);
+  aspect-ratio: 1;
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(0.7rem, 1.1vw, 0.75rem);
+  font-size: clamp(0.6rem, 0.9vw, 0.65rem);
   font-weight: 700;
   color: #ffffff;
   flex-shrink: 0;
+  padding: 0.15rem; /* Reduced padding */
 }
 
 .top-categories__label {

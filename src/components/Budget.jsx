@@ -89,7 +89,7 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
               <path
                 d="M 5 80 A 70 70 0 0 1 145 80"
                 fill="none"
-                stroke="var(--color-orange)"
+                stroke="var(--color-primary)"
                 strokeWidth="6"
                 strokeLinecap="round"
                 strokeDasharray="219.91"
@@ -107,7 +107,7 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
         <div className="budget__stats-grid">
           <div className="budget__stat-item">
             <div className="budget__stat-header">
-              <span className="budget__dot" style={{ backgroundColor: 'var(--color-orange)' }}></span>
+              <span className="budget__dot" style={{ backgroundColor: 'var(--color-primary)' }}></span>
               <span className="budget__stat-label">Spent</span>
             </div>
             <div className="budget__stat-info">
@@ -127,7 +127,7 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
           </div>
           <div className="budget__stat-item">
             <div className="budget__stat-header">
-              <span className="budget__dot" style={{ backgroundColor: 'var(--color-text-muted)' }}></span>
+              <span className="budget__dot" style={{ backgroundColor: 'var(--color-text-gray)' }}></span>
               <span className="budget__stat-label">Remaining</span>
             </div>
             <div className="budget__stat-info">

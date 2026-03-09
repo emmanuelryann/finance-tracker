@@ -214,27 +214,26 @@ function App() {
         <Header onMenuToggle={openSidebar} />
 
         <div className="content-grid">
-          <MetricCards 
-            availableBalance={availableBalance} 
-            totalIncome={totalIncome} 
-            totalExpenses={totalExpenses} 
-            balanceChange={balanceChange}
-            incomeChange={incomeChange}
-            expensesChange={expensesChange}
-          />
-          
-          <BalanceChart 
-            onAddClick={openTxnModal} 
-            availableBalance={availableBalance}
-            totalIncome={totalIncome}
-            categoryData={categorySpending}
-            monthName={currentMonthName}
-          />
-          
+          <div className="main-top">
+            <MetricCards 
+              availableBalance={availableBalance} 
+              totalIncome={totalIncome} 
+              totalExpenses={totalExpenses} 
+              balanceChange={balanceChange}
+              incomeChange={incomeChange}
+              expensesChange={expensesChange}
+            />
+            
+            <BalanceChart 
+              onAddClick={openTxnModal} 
+              transactions={transactions}
+            />
+          </div>
+
           <TopCategories categorySpending={categorySpending} totalExpenses={totalExpenses} />
 
           <RecentTransaction transactions={transactions} />
-          
+
           <Budget 
             budgets={budgets} 
             transactions={transactions} 
