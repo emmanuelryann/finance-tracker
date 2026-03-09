@@ -56,56 +56,89 @@ function App() {
     localStorage.setItem('finhow_budgets_v2', JSON.stringify(budgets));
   }, [budgets]);
 
-  // Calculate Monthly Metrics
-  const { totalIncome, totalExpenses, availableBalance, categorySpending, currentMonthName } = useMemo(() => {
+  // Calculate Monthly Metrics and Comparisons
+  const { 
+    totalIncome, 
+    totalExpenses, 
+    availableBalance, 
+    categorySpending, 
+    currentMonthName,
+    incomeChange,
+    expensesChange,
+    balanceChange
+  } = useMemo(() => {
     const now = new Date();
     const currentMonth = now.getMonth();
     const currentYear = now.getFullYear();
     const monthName = now.toLocaleString('default', { month: 'long' });
 
-    console.log("Budget Tracker: Calculating metrics for", monthName);
+    // Calculate previous month/year
+    const prevMonthDate = new Date(currentYear, currentMonth - 1, 1);
+    const prevMonth = prevMonthDate.getMonth();
+    const prevYear = prevMonthDate.getFullYear();
 
     let income = 0;
     let expenses = 0;
+    let prevIncome = 0;
+    let prevExpenses = 0;
+
     const spending = {
       Housing: 0,
       Food: 0,
       Entertainment: 0,
       Shopping: 0,
       Health: 0,
-      Others: 0
+      Miscellaneous: 0
     };
 
     transactions.forEach(txn => {
-      if (!txn || typeof txn !== 'object') return;
+      if (!txn || typeof txn !== 'object' || txn.status === 'Failed') return;
       
       const txnDate = new Date(txn.date);
       if (isNaN(txnDate.getTime())) return;
 
+      const amountStr = String(txn.amount || "0").replace(/[^0-9.-]+/g, "");
+      const amount = Math.abs(parseFloat(amountStr));
+      if (isNaN(amount)) return;
+
+      // Current Month
       if (txnDate.getMonth() === currentMonth && txnDate.getFullYear() === currentYear) {
-        const amountStr = String(txn.amount || "0").replace(/[^0-9.-]+/g, "");
-        const amount = Math.abs(parseFloat(amountStr));
-        if (isNaN(amount)) return;
-        
         if (txn.negative) {
           expenses += amount;
           if (spending.hasOwnProperty(txn.category)) {
             spending[txn.category] += amount;
           } else {
-            spending.Others += amount;
+            spending.Miscellaneous += amount;
           }
         } else {
           income += amount;
         }
       }
+      
+      // Previous Month
+      if (txnDate.getMonth() === prevMonth && txnDate.getFullYear() === prevYear) {
+        if (txn.negative) {
+          prevExpenses += amount;
+        } else {
+          prevIncome += amount;
+        }
+      }
     });
+
+    const calculateChange = (current, previous) => {
+      if (previous === 0) return current > 0 ? 100 : 0;
+      return ((current - previous) / previous) * 100;
+    };
 
     return {
       totalIncome: income,
       totalExpenses: expenses,
       availableBalance: income - expenses,
       categorySpending: spending,
-      currentMonthName: monthName
+      currentMonthName: monthName,
+      incomeChange: calculateChange(income, prevIncome),
+      expensesChange: calculateChange(expenses, prevExpenses),
+      balanceChange: calculateChange(income - expenses, prevIncome - prevExpenses)
     };
   }, [transactions]);
 
@@ -185,6 +218,9 @@ function App() {
             availableBalance={availableBalance} 
             totalIncome={totalIncome} 
             totalExpenses={totalExpenses} 
+            balanceChange={balanceChange}
+            incomeChange={incomeChange}
+            expensesChange={expensesChange}
           />
           
           <BalanceChart 
@@ -195,7 +231,7 @@ function App() {
             monthName={currentMonthName}
           />
           
-          <TopCategories categorySpending={categorySpending} totalIncome={totalIncome} />
+          <TopCategories categorySpending={categorySpending} totalExpenses={totalExpenses} />
 
           <RecentTransaction transactions={transactions} />
           

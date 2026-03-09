@@ -3,7 +3,7 @@ import '../styles/SpendingSummary.css';
 const categories = [
   { icon: 'fa-solid fa-bag-shopping', label: 'Shopping', amount: '$900.00', color: '#2db68a' },
   { icon: 'fa-solid fa-file-invoice', label: 'Utilities', amount: '$600.00', color: '#f59e0b' },
-  { icon: 'fa-solid fa-circle-dollar-to-slot', label: 'Others', amount: '$300.00', color: '#6b7280' },
+  { icon: 'fa-solid fa-circle-dollar-to-slot', label: 'Miscellaneous', amount: '$300.00', color: '#6b7280' },
 ];
 
 function SpendingSummary() {
@@ -27,7 +27,7 @@ function SpendingSummary() {
               stroke="#e5e7eb"
               strokeWidth="4"
             />
-            {/* Green segment (Others) */}
+            {/* Green segment (Miscellaneous) */}
             <circle
               cx="18" cy="18" r="15.915"
               fill="none"

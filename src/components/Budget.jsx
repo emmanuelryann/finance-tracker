@@ -4,13 +4,14 @@ import '../styles/Budget.css';
 function Budget({ budgets, transactions, onSetBudgetClick }) {
   const [filter, setFilter] = useState('Monthly');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState(null);
 
   const totalBudget = budgets[filter] || 0;
 
   const spentAmount = useMemo(() => {
     const now = new Date();
     return transactions.reduce((acc, txn) => {
-      if (!txn.negative || !txn.amount || !txn.date) return acc;
+      if (!txn.negative || !txn.amount || !txn.date || txn.status === 'Failed') return acc;
       
       const txnDate = new Date(txn.date);
       if (isNaN(txnDate.getTime())) return acc;
@@ -110,7 +111,18 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
               <span className="budget__stat-label">Spent</span>
             </div>
             <div className="budget__stat-info">
-              <span className="budget__stat-percent" title={`$ ${spentAmount.toLocaleString()}`}>{Math.round(spentPercent)}%</span>
+              <span 
+                className="budget__stat-percent"
+                onMouseEnter={() => setActiveTooltip('spent')}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >
+                {Math.round(spentPercent)}%
+                {activeTooltip === 'spent' && (
+                  <div className="budget__tooltip">
+                    $ {spentAmount.toLocaleString()}
+                  </div>
+                )}
+              </span>
             </div>
           </div>
           <div className="budget__stat-item">
@@ -119,7 +131,18 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
               <span className="budget__stat-label">Remaining</span>
             </div>
             <div className="budget__stat-info">
-              <span className="budget__stat-percent" title={`$ ${remaining.toLocaleString()}`}>{Math.round(remainingPercent)}%</span>
+              <span 
+                className="budget__stat-percent"
+                onMouseEnter={() => setActiveTooltip('remaining')}
+                onMouseLeave={() => setActiveTooltip(null)}
+              >
+                {Math.round(remainingPercent)}%
+                {activeTooltip === 'remaining' && (
+                  <div className="budget__tooltip">
+                    $ {remaining.toLocaleString()}
+                  </div>
+                )}
+              </span>
             </div>
           </div>
         </div>

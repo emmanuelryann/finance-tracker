@@ -12,7 +12,9 @@ function Header({ onMenuToggle }) {
           <i className="fa-solid fa-bars"></i>
         </button>
         <div className="header__greeting">
-          <h1 className="header__title">Good Morning, Emmanuel</h1>
+          <h1 className="header__title">
+            {new Date().getHours() < 12 ? 'Good Morning' : new Date().getHours() < 18 ? 'Good Afternoon' : 'Good Evening'}, Emmanuel
+          </h1>
           <p className="header__subtitle">
             This is your finance management platform.
           </p>

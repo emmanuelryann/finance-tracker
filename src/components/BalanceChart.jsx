@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import '../styles/BalanceChart.css';
 
-const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Others'];
+const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Miscellaneous'];
 
 function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
+  const [activeTooltip, setActiveTooltip] = useState(null);
   // Use the total monthly income as the chart's upper limit
   const maxCategorySpending = Math.max(...Object.values(categoryData), 0);
   const chartMax = Math.max(totalIncome, maxCategorySpending, 100);
@@ -59,8 +61,14 @@ function BalanceChart({ onAddClick, totalIncome, categoryData, monthName }) {
                     <div
                       className="balance-chart__bar"
                       style={{ height: `${heightPercent}%` }}
+                      onMouseEnter={() => setActiveTooltip(cat)}
+                      onMouseLeave={() => setActiveTooltip(null)}
                     >
-                      {spent > 0 && <span className="balance-chart__bar-value">${Math.round(spent)}</span>}
+                      {activeTooltip === cat && spent > 0 && (
+                        <div className="balance-chart__tooltip">
+                          ${Math.round(spent).toLocaleString()}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <span className="balance-chart__x-label">{cat}</span>

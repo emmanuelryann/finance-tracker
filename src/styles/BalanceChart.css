@@ -81,13 +81,13 @@
   flex: 1;
   min-height: clamp(12rem, 25vh, 18rem);
   margin-top: 0.5rem;
+  margin-bottom: 2rem; /* Space for x-axis labels */
 }
 
 .balance-chart__y-axis {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 2rem; /* space for x-axis labels */
   text-align: right;
   min-width: 2.5rem;
 }
@@ -110,7 +110,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 2rem);
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -131,7 +131,6 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-  padding-bottom: 2rem;
   z-index: 2;
 }
 
@@ -146,7 +145,7 @@
 
 .balance-chart__bar-wrapper {
   flex: 1;
-  width: clamp(1.5rem, 4vw, 3rem);
+  width: clamp(2rem, 5vw, 4rem);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -158,35 +157,44 @@
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   transition: height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
+  cursor: pointer;
 }
 
 .balance-chart__bar:hover {
   background: var(--color-primary-dark);
 }
 
-.balance-chart__bar-value {
+.balance-chart__tooltip {
   position: absolute;
-  top: -1.5rem;
+  top: -2.8rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.625rem;
-  font-weight: 700;
+  background: #fff;
   color: var(--color-text-primary);
-  opacity: 0;
-  transition: opacity 0.2s;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  pointer-events: none;
+  animation: tooltipFadeIn 0.2s ease;
 }
 
-.balance-chart__bar:hover .balance-chart__bar-value {
-  opacity: 1;
+@keyframes tooltipFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .balance-chart__x-label {
   position: absolute;
-  bottom: 0;
+  top: 100%;
+  padding-top: 0.75rem;
   font-size: clamp(0.5625rem, 0.9vw, 0.6875rem);
   color: var(--color-text-secondary);
   font-weight: 500;
   text-align: center;
   width: 100%;
-  padding-top: 0.5rem;
 }

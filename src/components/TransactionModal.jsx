@@ -1,6 +1,8 @@
 import '../styles/TransactionModal.css';
 import { useState } from 'react';
 
+const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Miscellaneous'];
+
 function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -22,6 +24,11 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
 
     const amountValue = parseFloat(formData.amount);
     
+    if (isNaN(amountValue) || amountValue <= 0) {
+      setError('Please enter a valid amount greater than 0.');
+      return;
+    }
+    
     // Logic: Prevent negative transaction if it exceeds current balance
     if (formData.negative && amountValue > currentBalance) {
       setError(`Insufficient balance. Current ${new Date().toLocaleString('default', { month: 'long' })} balance: $${currentBalance.toLocaleString()}`);
@@ -30,7 +37,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
 
     const newTransaction = {
       ...formData,
-      category: formData.negative ? formData.category : 'Others',
+      category: formData.negative ? formData.category : 'Miscellaneous',
       amount: `${formData.negative ? '-' : '+'}$${amountValue.toLocaleString(undefined, { minimumFractionDigits: 0 })}`,
       id: Date.now()
     };
@@ -45,6 +52,12 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
       date: new Date().toISOString().split('T')[0],
       negative: true
     });
+  };
+
+  const handleAmountKeyDown = (e) => {
+    if (e.key === '-' || e.key === 'e' || e.key === '+') {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -77,8 +90,10 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
               <input
                 type="number"
                 step="0.01"
+                min="0"
                 placeholder="0.00"
                 value={formData.amount}
+                onKeyDown={handleAmountKeyDown}
                 onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                 required
               />
@@ -108,7 +123,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
                 <option value="Entertainment">Entertainment</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Health">Health</option>
-                <option value="Others">Others</option>
+                <option value="Miscellaneous">Miscellaneous</option>
               </select>
             </div>
             <div className="form-group">
@@ -120,7 +135,6 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
                 <option value="Success">Success</option>
                 <option value="Pending">Pending</option>
                 <option value="Failed">Failed</option>
-                <option value="Reversed">Reversed</option>
               </select>
             </div>
           </div>

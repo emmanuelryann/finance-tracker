@@ -9,11 +9,18 @@ function BudgetModal({ isOpen, onClose, onSet, currentBudgets }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!amount) return;
+    const amountVal = parseFloat(amount);
+    if (!amountVal || amountVal <= 0) return;
 
-    onSet(timeframe, parseFloat(amount));
+    onSet(timeframe, amountVal);
     onClose();
     setAmount('');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === '-' || e.key === 'e' || e.key === '+') {
+      e.preventDefault();
+    }
   };
 
   return (
@@ -45,8 +52,10 @@ function BudgetModal({ isOpen, onClose, onSet, currentBudgets }) {
             <input
               type="number"
               step="0.01"
+              min="0"
               placeholder="0.00"
               value={amount}
+              onKeyDown={handleKeyDown}
               onChange={(e) => setAmount(e.target.value)}
               required
             />

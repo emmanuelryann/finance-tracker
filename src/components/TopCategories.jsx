@@ -6,18 +6,18 @@ const category_map = {
   Entertainment: { icon: 'fa-solid fa-clapperboard', color: '#e50914' },
   Shopping: { icon: 'fa-solid fa-bag-shopping', color: '#ea4c89' },
   Health: { icon: 'fa-solid fa-notes-medical', color: '#49ABA9' },
-  Others: { icon: 'fa-solid fa-circle-dollar-to-slot', color: '#6b7280' },
+  Miscellaneous: { icon: 'fa-solid fa-grid-2', color: '#64748b' },
 };
 
-function TopCategories({ categorySpending, totalIncome }) {
+function TopCategories({ categorySpending, totalExpenses }) {
   // Filter for categories with spending > 0 and sort by amount descending
   const activeCategories = Object.entries(categorySpending)
     .filter(([_, amount]) => amount > 0)
     .sort((a, b) => b[1] - a[1])
     .map(([category, amount]) => {
-      const config = category_map[category] || category_map.Others;
-      // Calculate percent of total income
-      const percent = totalIncome > 0 ? (amount / totalIncome) * 100 : 0;
+      const config = category_map[category] || category_map.Miscellaneous;
+      // Calculate percent of total expenses
+      const percent = totalExpenses > 0 ? (amount / totalExpenses) * 100 : 0;
       return {
         label: category,
         amount: amount,
@@ -77,26 +77,18 @@ function TopCategories({ categorySpending, totalIncome }) {
               <ul className="top-categories__list">
                 {activeCategories.map((cat) => (
                   <li key={cat.label} className="top-categories__item">
-                    <div className="top-categories__item-top">
-                      <div className="top-categories__item-left">
-                        <span 
-                          className="top-categories__icon" 
-                          style={{ backgroundColor: `${cat.color}1a`, color: cat.color }}
-                        >
-                          <i className={cat.icon}></i>
-                        </span>
-                        <span className="top-categories__label">{cat.label}</span>
-                      </div>
-                      <span className="top-categories__amount">
-                        ${cat.amount.toLocaleString()}
+                    <div className="top-categories__item-left">
+                      <span 
+                        className="top-categories__badge" 
+                        style={{ backgroundColor: cat.color }}
+                      >
+                        {Math.round(cat.percent)}%
                       </span>
+                      <span className="top-categories__label">{cat.label}</span>
                     </div>
-                    <div className="top-categories__bar">
-                      <div
-                        className="top-categories__bar-fill"
-                        style={{ width: `${cat.percent}%`, backgroundColor: 'var(--color-orange)' }}
-                      ></div>
-                    </div>
+                    <span className="top-categories__amount">
+                      ${cat.amount.toLocaleString()}
+                    </span>
                   </li>
                 ))}
               </ul>

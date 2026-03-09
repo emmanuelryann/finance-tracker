@@ -232,4 +232,29 @@
   font-weight: 700;
   color: var(--color-text-primary);
   cursor: pointer;
+  position: relative;
+}
+
+.budget__tooltip {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--color-text-primary);
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  pointer-events: none;
+  animation: budgetTooltipFadeIn 0.2s ease;
+}
+
+@keyframes budgetTooltipFadeIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
