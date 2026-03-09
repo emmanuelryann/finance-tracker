@@ -61,32 +61,45 @@ function RecentTransaction({ transactions }) {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((txn) => (
-              <tr key={txn.id} className="txn-row">
-                <td className="txn-name-cell">
-                  <span className="txn-name">{txn.name}</span>
-                </td>
-                <td className="txn-date-cell">{formatDate(txn.date)}</td>
-                <td className="txn-category-cell">{txn.category}</td>
-                <td className={`txn-amount-cell ${txn.negative ? 'negative' : 'positive'}`}>
-                  {txn.amount}
-                </td>
-                <td className="txn-status-cell">
-                  <div 
-                    className={`status-tag status-tag--${txn.status?.toLowerCase() || 'success'}`}
-                    style={{ color: getStatusColor(txn.status) }}
-                  >
-                    <span className="status-tag__icon">{getStatusIcon(txn.status || 'Success')}</span>
-                    <span className="status-tag__text">{txn.status || 'Success'}</span>
+            {transactions.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="transaction-history__empty-cell">
+                  <div className="top-categories__empty" style={{ margin: '2rem auto' }}>
+                    <div className="top-categories__empty-icon">
+                      <i className="fa-solid fa-receipt"></i>
+                    </div>
+                    <p>No transactions carried out yet.</p>
                   </div>
                 </td>
-                <td className="txn-action-cell">
-                  <button className="three-dot-btn">
-                    <i className="fa-solid fa-ellipsis"></i>
-                  </button>
-                </td>
               </tr>
-            ))}
+            ) : (
+              transactions.map((txn) => (
+                <tr key={txn.id} className="txn-row">
+                  <td className="txn-name-cell">
+                    <span className="txn-name">{txn.name}</span>
+                  </td>
+                  <td className="txn-date-cell">{formatDate(txn.date)}</td>
+                  <td className="txn-category-cell">{txn.category}</td>
+                  <td className={`txn-amount-cell ${txn.negative ? 'negative' : 'positive'}`}>
+                    {txn.amount}
+                  </td>
+                  <td className="txn-status-cell">
+                    <div 
+                      className={`status-tag status-tag--${txn.status?.toLowerCase() || 'success'}`}
+                      style={{ color: getStatusColor(txn.status) }}
+                    >
+                      <span className="status-tag__icon">{getStatusIcon(txn.status || 'Success')}</span>
+                      <span className="status-tag__text">{txn.status || 'Success'}</span>
+                    </div>
+                  </td>
+                  <td className="txn-action-cell">
+                    <button className="three-dot-btn">
+                      <i className="fa-solid fa-ellipsis"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
