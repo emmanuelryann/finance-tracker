@@ -4,12 +4,20 @@ import { useState } from 'react';
 const categories = ['Housing', 'Food', 'Entertainment', 'Shopping', 'Health', 'Miscellaneous'];
 
 function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
+  // Utility to get YYYY-MM-DD in local time (ISO gives UTC which misaligns timezones)
+  const getLocalISODate = () => {
+    const d = new Date();
+    // Adjust to local timezone offset
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     amount: '',
     category: 'Shopping',
     status: 'Success',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalISODate(),
     negative: true
   });
   const [error, setError] = useState('');
@@ -49,7 +57,7 @@ function TransactionModal({ isOpen, onClose, onAdd, currentBalance }) {
       amount: '',
       category: 'Shopping',
       status: 'Success',
-      date: new Date().toISOString().split('T')[0],
+      date: getLocalISODate(),
       negative: true
     });
   };

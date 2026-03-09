@@ -16,7 +16,13 @@ function BalanceChart({ onAddClick, transactions }) {
   // Local calculation of data for the selected month
   const { totalIncome, categoryData } = useMemo(() => {
     const monthTransactions = transactions.filter(txn => {
-      const txnDate = new Date(txn.date);
+      let txnDate;
+      if (typeof txn.date === 'string' && txn.date.includes('-')) {
+        const [year, month, day] = txn.date.split('-');
+        txnDate = new Date(year, month - 1, day);
+      } else {
+        txnDate = new Date(txn.date);
+      }
       return txnDate.getMonth() === selectedMonth && txnDate.getFullYear() === new Date().getFullYear();
     });
 

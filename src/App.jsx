@@ -94,7 +94,15 @@ function App() {
     transactions.forEach(txn => {
       if (!txn || typeof txn !== 'object' || txn.status === 'Failed') return;
       
-      const txnDate = new Date(txn.date);
+      let txnDate;
+      if (typeof txn.date === 'string' && txn.date.includes('-')) {
+        const [year, month, day] = txn.date.split('-');
+        // month is 0-indexed in JS Date
+        txnDate = new Date(year, month - 1, day);
+      } else {
+        txnDate = new Date(txn.date);
+      }
+      
       if (isNaN(txnDate.getTime())) return;
 
       const amountStr = String(txn.amount || "0").replace(/[^0-9.-]+/g, "");

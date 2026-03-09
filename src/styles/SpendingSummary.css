@@ -81,7 +81,6 @@
   justify-content: center;
   font-size: clamp(0.75rem, 1.2vw, 1rem);
   background-color: #f8fafa;
-  /* border: 0.0625rem solid var(--color-border); */
   margin-bottom: 0.25rem;
 }
 

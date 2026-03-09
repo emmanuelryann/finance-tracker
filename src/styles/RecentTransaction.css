@@ -37,11 +37,33 @@
 .transaction-history__table-container {
   flex: 1;
   overflow-y: auto;
+  overflow-x: auto;
   margin-top: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.transaction-history__table-container::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.transaction-history__table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0.25rem;
+}
+
+.transaction-history__table-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 0.25rem;
+}
+
+.transaction-history__table-container::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
 }
 
 .transaction-history__table {
   width: 100%;
+  min-width: 32rem;
   border-collapse: collapse;
   text-align: left;
 }

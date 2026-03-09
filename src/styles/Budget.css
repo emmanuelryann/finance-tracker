@@ -213,9 +213,6 @@
   border-radius: var(--radius-full);
 }
 
-/* .budget__dot--spent { background-color: var(--color-orange); }
-.budget__dot--remaining { background-color: var(--color-text-muted); } */
-
 .budget__stat-label {
   font-size: clamp(0.6875rem, 1.1vw, 0.8125rem);
   color: var(--color-text-secondary);

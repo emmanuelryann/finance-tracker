@@ -7,7 +7,7 @@ function Sidebar({ isOpen, onClose }) {
         <div className="sidebar__logo">
           <i className="fa-solid fa-grip"></i>
         </div>
-        <span className="sidebar__brand-name">Financery</span>
+        <span className="sidebar__brand-name">Finance</span>
       </div>
 
       <nav className="sidebar__nav">

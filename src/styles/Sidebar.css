@@ -97,7 +97,7 @@
 
 .sidebar__item--active {
   color: var(--color-primary);
-  background: rgba(3, 3, 140, 0.05); /* Very light blue background based on primary */
+  background: rgba(3, 3, 140, 0.05);
   font-weight: 600;
   border-left: 3px solid var(--color-primary);
 }

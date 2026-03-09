@@ -134,17 +134,20 @@ input {
   gap: 1rem;
   flex: 1;
   align-items: start;
+  min-width: 0;
 }
 
 .main-top {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .recent-txn {
   height: clamp(20rem, 35vh, 28rem);
   max-height: clamp(20rem, 35vh, 28rem);
+  min-width: 0;
 }
 
 .budget {
@@ -161,6 +164,8 @@ input {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .card-header {
@@ -193,5 +198,21 @@ input {
 @media (max-width: 48rem) {
   .main-content {
     padding: 1rem;
+  }
+
+  .recent-txn {
+    height: clamp(18rem, 45vh, 30rem);
+    max-height: clamp(18rem, 45vh, 30rem);
+  }
+
+  .budget {
+    height: clamp(18rem, 35vh, 30rem);
+    max-height: clamp(18rem, 35vh, 30rem);
+  }
+}
+
+@media (max-width: 30rem) {
+  .main-content {
+    padding: 0.75rem;
   }
 }

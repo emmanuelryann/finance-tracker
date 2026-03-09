@@ -2,7 +2,14 @@ import '../styles/RecentTransaction.css';
 
 function RecentTransaction({ transactions }) {
   const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
+    let date;
+    if (typeof dateStr === 'string' && dateStr.includes('-')) {
+      const [year, month, day] = dateStr.split('-');
+      date = new Date(year, month - 1, day);
+    } else {
+      date = new Date(dateStr);
+    }
+    
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',

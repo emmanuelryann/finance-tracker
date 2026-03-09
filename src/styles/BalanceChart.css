@@ -131,7 +131,7 @@
   flex: 1;
   min-height: clamp(12rem, 25vh, 18rem);
   margin-top: 0.5rem;
-  margin-bottom: 2rem; /* Space for x-axis labels */
+  margin-bottom: 2rem;
 }
 
 .balance-chart__y-axis {
@@ -195,7 +195,7 @@
 
 .balance-chart__bar-wrapper {
   flex: 1;
-  width: clamp(2.5rem, 7vw, 5rem);
+  width: clamp(1.5rem, 7vw, 5rem);
   display: flex;
   align-items: flex-end;
   justify-content: center;

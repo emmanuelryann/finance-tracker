@@ -13,7 +13,13 @@ function Budget({ budgets, transactions, onSetBudgetClick }) {
     return transactions.reduce((acc, txn) => {
       if (!txn.negative || !txn.amount || !txn.date || txn.status === 'Failed') return acc;
       
-      const txnDate = new Date(txn.date);
+      let txnDate;
+      if (typeof txn.date === 'string' && txn.date.includes('-')) {
+        const [year, month, day] = txn.date.split('-');
+        txnDate = new Date(year, month - 1, day);
+      } else {
+        txnDate = new Date(txn.date);
+      }
       if (isNaN(txnDate.getTime())) return acc;
 
       const amountStr = String(txn.amount).replace(/[^0-9.-]+/g, "");

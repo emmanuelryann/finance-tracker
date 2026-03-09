@@ -38,9 +38,6 @@ function Header({ onMenuToggle }) {
         <button className="header__icon-btn" aria-label="Settings">
           <i className="fa-solid fa-gear"></i>
         </button>
-        <button className="header__icon-btn header__icon-btn--menu" aria-label="More options">
-          <i className="fa-solid fa-bars"></i>
-        </button>
       </div>
     </header>
   );

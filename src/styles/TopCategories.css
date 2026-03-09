@@ -89,7 +89,7 @@
   font-weight: 700;
   color: #ffffff;
   flex-shrink: 0;
-  padding: 0.15rem; /* Reduced padding */
+  padding: 0.15rem;
 }
 
 .top-categories__label {
